@@ -22,3 +22,30 @@ const duplicatedDir = path.join(workingDir, 'duplicated');
 
 
 // 3. 폴더안에 있는 파일들을 다 돌면서 해당하는 mp4|mov, png|aae, (IMG_E1234)
+fs.promises
+  .readdir(workingDir)
+  .then(processFiles)
+  .catch(console.log); 
+//workingDir 안에 있는 파일 읽기
+
+function processFiles(files) {
+    files.forEach((file) => {
+        if (isVideoFile(file)) {
+            console.log('video', file);
+        } else if(isCapturedFile(file)) {
+            console.log('captured', file);
+        } else if (isDuplicatedFile(file)) {
+            console.log('duplicated', file);
+        }
+    });
+}
+
+function isVideoFile(file) {
+    return true;
+}
+function isCapturedFile(file) {
+    return true;
+}
+function isDuplicatedFile(file) {
+    return true;
+}
