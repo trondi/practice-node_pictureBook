@@ -34,18 +34,29 @@ function processFiles(files) {
             console.log('video', file);
         } else if(isCapturedFile(file)) {
             console.log('captured', file);
-        } else if (isDuplicatedFile(file)) {
+        } else if (isDuplicatedFile(files, file)) {
             console.log('duplicated', file);
         }
     });
 }
 
 function isVideoFile(file) {
-    return true;
+    const regExp = /(mp4|mov)$/gm; //정규식 끝이 mp4|mov로 끝나는 객체 전역검색, 다중행 검색
+    const match = file.match(regExp);
+    return !!match; //!! : match에 결과값이 있다면 true, null -> f
 }
 function isCapturedFile(file) {
-    return true;
+    const regExp = /(png|aae)$/gm;
+    const match = file.match(regExp);
+    return !!match; 
 }
-function isDuplicatedFile(file) {
-    return true;
+function isDuplicatedFile(files, file) { 
+    // IMG_000 -> IMG_E000
+    if(!file.startsWith('IMG_') || file.startsWith('IMG_E')) {
+        return false;
+    }
+    
+    const edited = `IMG_E${file.split('_')[1]}`;
+    const found = files.find((f) => f.includes(edited));
+    return !!found; 
 }
